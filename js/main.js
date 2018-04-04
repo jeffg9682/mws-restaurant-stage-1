@@ -127,7 +127,8 @@ resetRestaurants = (restaurants) => {
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
-    ul.append(createRestaurantHTML(restaurant));
+    ul.append(createRestaurantHTML(restaurant, tabIndex));
+    tabIndex ++;
   });
   addMarkersToMap();
 }
@@ -156,6 +157,7 @@ createRestaurantHTML = (restaurant) => {
   li.append(address);
 
   const more = document.createElement('a');
+  more.setAttribute('tabindex', tabIndex.toString());
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
