@@ -86,7 +86,6 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
 }
 
 /* Display list items side by side */
@@ -136,7 +135,7 @@ nav h1 a {
   width: 100%;
 }
 
-@media all  and (min-width:700px)  { 
+@media (min-width:700px)  { 
   #maincontent-top > #map-container, #maincontent-top > #map-container > #map {
     height: 660px;
   }
@@ -179,7 +178,7 @@ nav h1 a {
   align-items: center;
 }
 
-@media all and (min-width:481px)  { 
+@media (min-width:481px)  { 
   .filter-options {
     flex-direction: row;
   }
@@ -255,10 +254,7 @@ nav h1 a {
 
 /* ====================== Restaurant Details ====================== */
 .inside header {
-  position: fixed;
-  top: 0;
   width: 100%;
-  z-index: 1000;
 }
 
 .inside #map-container {
@@ -367,7 +363,7 @@ nav h1 a {
   flex-direction: column;
 }
 
-@media all and (min-width:700px)  { 
+@media (min-width:700px)  { 
   #maincontent-top {
     flex-direction: row-reverse;
   }

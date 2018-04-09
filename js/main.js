@@ -80,6 +80,11 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
+
+  google.maps.event.addDomListener(window, 'resize', function () {
+    map.setCenter(loc);
+  });
+
   updateRestaurants();
 }
 
@@ -127,8 +132,7 @@ resetRestaurants = (restaurants) => {
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
-    ul.append(createRestaurantHTML(restaurant, tabIndex));
-    tabIndex ++;
+    ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
 }
@@ -157,8 +161,8 @@ createRestaurantHTML = (restaurant) => {
   li.append(address);
 
   const more = document.createElement('a');
-  more.setAttribute('tabindex', tabIndex.toString());
   more.innerHTML = 'View Details';
+  more.setAttribute('aria-label', 'View Details for ' + restaurant.name);
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
 
