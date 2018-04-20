@@ -1,47 +1,66 @@
-self.addEventListener('install', function (event) {
-  // Perform install steps
-}); var CACHE_NAME = 'restaurant-cache';
-var urlsToCache = [
-  '/',
-  './index.html',
-  './restaurant.html',
-  './css/styles.css',
-  './js/dbhelper.js',
-  './js/main.js',
-  './js/restaurant_info.js',
-  './data/restaurants.json',
-  './img/1.jpg',
-  './img/2.jpg',
-  './img/3.jpg',
-  './img/4.jpg',
-  './img/5.jpg',
-  './img/6.jpg',
-  './img/7.jpg',
-  './img/8.jpg',
-  './img/9.jpg',
-  './img/10.jpg',
-];
+// Referred from: https://developers.google.com/web/fundamentals/getting-started/codelabs/offline
+// Referred from: https://una.im/save-offline
+// Referred from: https://github.com/GoogleChrome/airhorn
+//https://jakearchibald.com/2014/offline-cookbook/
 
-self.addEventListener('install', function (event) {
-  // Perform install steps
+ 
+var webCacheName = 'mwsnd-stage-1';
+ 
+var cacheFiles = [
+  '/',
+  '/service-worker.js',
+  '/css/styles.css',
+  '/img/1.jpg',
+  '/img/2.jpg',
+  '/img/3.jpg',
+  '/img/4.jpg',
+  '/img/5.jpg',
+  '/img/6.jpg',
+  '/img/7.jpg',
+  '/img/8.jpg',
+  '/img/9.jpg',
+  '/img/10.jpg',
+  '/js/dbhelper.js',
+  '/js/main.js',
+  '/js/restaurant_info.js',
+  '/index.html',
+  '/restaurant.html'
+];
+ 
+self.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(function (cache) {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(webCacheName).then(function(cache) {
+      return cache.addAll(cacheFiles).then(function() {
+      });
+    })
   );
 });
-
-self.addEventListener('activate',  event => {
-  event.waitUntil(self.clients.claim());
-});
-
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request, {ignoreSearch:true}).then(response => {
-      return response || fetch(event.request);
+ 
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.filter(function(cacheName) {
+          return cacheName.startsWith('mwsnd-');
+        }).map(function(cacheName) {
+          return caches.delete(cacheName);
+        })
+      );
     })
-    .catch(err => console.log(err, event.request))
+  );
+});
+ 
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request).then(function(response) {
+      return response || fetch(event.request).then((response) => {
+        var resp = response.clone()
+            var req = event.request.clone();
+        caches.open(webCacheName).then(function(cache) {
+          cache.put(req, resp);
+        });
+        return response;
+      });
+    })
   );
 });
