@@ -29,7 +29,7 @@
         <select tabindex="1" id="neighborhoods-select" name="neighborhoods" aria-label= "Select Neighborhood" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select tabindex="2" id="cuisines-select" name="cuisines" aria label= "Select Cuisine" onchange="updateRestaurants()">
+        <select tabindex="2" id="cuisines-select" name="cuisines" aria-label= "Select Cuisine" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>
@@ -40,14 +40,12 @@
   <!-- Add Service Worker Registration script-->
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('sw.js').then(function (registration) {
+         navigator.serviceWorker.register('sw.js').then(function (registration) {
           console.log('ServiceWorker registration successful with scope: ', registration.scope);
         }, function (err) {
           console.log('ServiceWorker registration failed: ', err);
         });
-      });
-    }
+      };
   </script>
 
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
